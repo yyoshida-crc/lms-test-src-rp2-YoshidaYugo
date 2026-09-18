@@ -43,6 +43,9 @@ public class Case03 {
 		WebDriverUtils.goTo("http://localhost:8080/lms");
 
 		assertEquals("ログイン | LMS", WebDriverUtils.webDriver.getTitle());
+		WebDriverUtils.getEvidence(new Object() {
+
+		});
 	}
 
 	@Test
