@@ -39,7 +39,7 @@ public class Case02 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+
 		WebDriverUtils.goTo("http://localhost:8080/lms");
 
 		assertEquals("ログイン | LMS", WebDriverUtils.webDriver.getTitle());
@@ -52,7 +52,7 @@ public class Case02 {
 	@Order(2)
 	@DisplayName("テスト02 DBに登録されていないユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+
 		webDriver.findElement(By.id("loginId")).sendKeys("StudentXXX");
 		webDriver.findElement(By.id("password")).sendKeys("StudentXXX");
 		webDriver.findElement(By.cssSelector(".btn.btn-primary")).click();
