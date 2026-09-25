@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import jp.co.sss.lms.ct.util.WebDriverUtils;
 
@@ -96,6 +97,7 @@ public class Case05 {
 		assertEquals("よくある質問 | LMS", WebDriverUtils.webDriver.getTitle());
 
 		WebDriverUtils.getEvidence(new Object() {
+
 		});
 	}
 
@@ -103,14 +105,32 @@ public class Case05 {
 	@Order(5)
 	@DisplayName("テスト05 キーワード検索で該当キーワードを含む検索結果だけ表示")
 	void test05() {
-		// TODO ここに追加
+
+		webDriver.findElement(By.id("form")).sendKeys("途中退校");
+		webDriver.findElement(By.cssSelector(".btn.btn-primary")).click();
+
+		WebElement partiaLinlElement = webDriver.findElement(By.cssSelector("tbody tr:nth-child(1) dl"));
+		String actualText = partiaLinlElement.getText();
+		assertTrue(actualText.contains("途中退校"));
+
+		getEvidence(new Object() {
+
+		});
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 「クリア」ボタン押下で入力したキーワードを消去")
 	void test06() {
-		// TODO ここに追加
+
+		webDriver.findElement(By.cssSelector("input[value='クリア']")).click();
+		WebElement inputElement = webDriver.findElement(By.id("form"));
+		String inputValue = inputElement.getAttribute("value");
+
+		assertEquals("", inputValue);
+		getEvidence(new Object() {
+
+		});
 	}
 
 }
