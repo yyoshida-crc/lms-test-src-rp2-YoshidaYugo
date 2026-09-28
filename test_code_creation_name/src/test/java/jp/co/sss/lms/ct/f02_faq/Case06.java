@@ -3,6 +3,7 @@ package jp.co.sss.lms.ct.f02_faq;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterAll;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import jp.co.sss.lms.ct.util.WebDriverUtils;
 
@@ -106,11 +108,16 @@ public class Case06 {
 	void test05() {
 
 		webDriver.findElement(By.linkText("【研修関係】")).click();
-		assertTrue(webDriver.findElement(By.cssSelector(".table.table-hover.sortabletable")).isDisplayed());
+
+		List<WebElement> rowsList = webDriver.findElements(By.cssSelector(".table tbody tr"));
+		assertEquals(2, rowsList.size());
+		assertTrue(rowsList.get(0).getText().contains("キャンセル料・途中退校について"));
+		assertTrue(rowsList.get(1).getText().contains("研修の申し込みはどのようにすれば良いですか"));
 
 		getEvidence(new Object() {
 
 		});
+
 	}
 
 	@Test
