@@ -1,6 +1,7 @@
 package jp.co.sss.lms.ct.f03_report;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +10,10 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import jp.co.sss.lms.ct.util.WebDriverUtils;
 
 /**
  * 結合テスト レポート機能
@@ -35,35 +40,70 @@ public class Case07 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+
+		goTo("http://localhost:8080/lms/");
+
+		assertEquals("ログイン | LMS", webDriver.getTitle());
+		getEvidence(new Object() {
+
+		});
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+
+		webDriver.findElement(By.id("loginId")).sendKeys("StudentAA01");
+		webDriver.findElement(By.id("password")).sendKeys("PasswordAA01");
+		webDriver.findElement(By.cssSelector(".btn.btn-primary")).click();
+
+		WebDriverUtils.visibilityTimeout(By.cssSelector(".navbar-brand"), 10);
+		assertEquals("コース詳細 | LMS", WebDriverUtils.webDriver.getTitle());
+		WebDriverUtils.getEvidence(new Object() {
+
+		});
 	}
 
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 未提出の研修日の「詳細」ボタンを押下しセクション詳細画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		webDriver.findElement(By.cssSelector("td form input:nth-child(3)")).click();
+
+		WebDriverUtils.visibilityTimeout(By.cssSelector(".nav.navbar-nav.navbar-right"), 3);
+		assertEquals("セクション詳細 | LMS", webDriver.getTitle());
+		getEvidence(new Object() {
+
+		});
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「提出する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
-		// TODO ここに追加
+		webDriver.findElement(By.cssSelector("td form .btn.btn-default")).click();
+		WebDriverUtils.visibilityTimeout(By.cssSelector(".well.bs-component"), 3);
+		assertEquals("レポート登録 | LMS", webDriver.getTitle());
+
+		getEvidence(new Object() {
+
+		});
 	}
 
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 報告内容を入力して「提出する」ボタンを押下し確認ボタン名が更新される")
 	void test05() {
-		// TODO ここに追加
+		webDriver.findElement(By.cssSelector("textarea")).sendKeys("ケース07実行");
+		webDriver.findElement(By.cssSelector(".btn.btn-primary")).click();
+
+		WebElement btnName = webDriver.findElement(By.cssSelector("form input[type='submit']"));
+		assertEquals("提出済み日報【デモ】を確認する", btnName.getAttribute("value"));
+
+		getEvidence(new Object() {
+
+		});
 	}
 
 }

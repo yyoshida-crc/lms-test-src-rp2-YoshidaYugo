@@ -1,6 +1,9 @@
 package jp.co.sss.lms.ct.f03_report;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +12,10 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import jp.co.sss.lms.ct.util.WebDriverUtils;
 
 /**
  * 結合テスト レポート機能
@@ -35,49 +42,95 @@ public class Case08 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+
+		goTo("http://localhost:8080/lms/");
+		assertEquals("ログイン | LMS", webDriver.getTitle());
+
+		getEvidence(new Object() {
+
+		});
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+
+		webDriver.findElement(By.id("loginId")).sendKeys("StudentAA01");
+		webDriver.findElement(By.id("password")).sendKeys("PasswordAA01");
+		webDriver.findElement(By.cssSelector(".btn.btn-primary")).click();
+
+		WebDriverUtils.visibilityTimeout(By.cssSelector(".navbar-brand"), 10);
+		assertEquals("コース詳細 | LMS", WebDriverUtils.webDriver.getTitle());
+		WebDriverUtils.getEvidence(new Object() {
+
+		});
 	}
 
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 提出済の研修日の「詳細」ボタンを押下しセクション詳細画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		List<WebElement> elements = WebDriverUtils.webDriver.findElements(By.xpath("//input[@value='詳細']"));
+		elements.get(0).click();
+
+		assertEquals("セクション詳細 | LMS", WebDriverUtils.webDriver.getTitle());
+
+		WebDriverUtils.getEvidence(new Object() {
+
+		});
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「確認する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
-		// TODO ここに追加
+		WebDriverUtils.webDriver.findElement(By.xpath("//input[@value='提出済み日報【デモ】を確認する']")).click();
+		WebDriverUtils.getEvidence(new Object() {
+
+		});
+
 	}
 
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 報告内容を修正して「提出する」ボタンを押下しセクション詳細画面に遷移")
 	void test05() {
-		// TODO ここに追加
+		String text = "修正済み";
+		WebDriverUtils.webDriver.findElement(By.xpath("//textarea[@class='form-control']")).sendKeys(text);
+		WebDriverUtils.webDriver.findElement(By.xpath("//button[@type='submit']")).click();
+
+		WebDriverUtils.getEvidence(new Object() {
+
+		});
+
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 上部メニューの「ようこそ○○さん」リンクからユーザー詳細画面に遷移")
 	void test06() {
-		// TODO ここに追加
+
+		WebDriverUtils.webDriver.findElement(By.xpath("//a[@href='/lms/user/detail']")).click();
+
+		WebDriverUtils.getEvidence(new Object() {
+
+		});
+
 	}
 
 	@Test
 	@Order(7)
 	@DisplayName("テスト07 該当レポートの「詳細」ボタンを押下しレポート詳細画面で修正内容が反映される")
 	void test07() {
-		// TODO ここに追加
+
+		List<WebElement> elements = WebDriverUtils.webDriver.findElements(By.xpath("//input[@value='詳細']"));
+		elements.get(4).click();
+
+		WebDriverUtils.getEvidence(new Object() {
+
+		});
+
 	}
 
 }
